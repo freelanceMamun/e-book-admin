@@ -9,18 +9,25 @@ import {
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 import { Link } from 'react-router-dom';
-export function LoginPage() {
+
+const Register = () => {
   return (
     <div className="flex items-center justify-center h-screen">
       <Card className="mx-auto w-[20%]">
         <CardHeader>
-          <CardTitle className="text-2xl">Login</CardTitle>
+          <CardTitle className="text-xl">Sign Up</CardTitle>
           <CardDescription>
-            Enter your email below to login to your account
+            Enter your information to create an account
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid gap-4">
+            <div className="grid grid-cols-1">
+              <div className="grid gap-2">
+                <Label htmlFor="first-name">Name</Label>
+                <Input id="first-name" placeholder="name" required />
+              </div>
+            </div>
             <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -31,32 +38,23 @@ export function LoginPage() {
               />
             </div>
             <div className="grid gap-2">
-              <div className="flex items-center">
-                <Label htmlFor="password">Password</Label>
-                <Link
-                  to={''}
-                  className="ml-auto inline-block text-sm underline"
-                >
-                  Forgot your password?
-                </Link>
-              </div>
-              <Input id="password" type="password" required />
+              <Label htmlFor="password">Password</Label>
+              <Input id="password" type="password" />
             </div>
             <Button type="submit" className="w-full">
-              Login
-            </Button>
-            <Button variant="outline" className="w-full">
-              Login with Google
+              Create an account
             </Button>
           </div>
           <div className="mt-4 text-center text-sm">
-            Don&apos;t have an account?{' '}
-            <Link to={'/register'} className="underline">
-              Sign up
+            Already have an account?{' '}
+            <Link to="/login" className="underline">
+              Sign in
             </Link>
           </div>
         </CardContent>
       </Card>
     </div>
   );
-}
+};
+
+export default Register;
