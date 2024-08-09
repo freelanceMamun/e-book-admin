@@ -7,6 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from '../components/ui/card';
+import { LoaderCircle } from 'lucide-react';
 
 import { useMutation } from '@tanstack/react-query';
 
@@ -75,11 +76,13 @@ export function LoginPage() {
               <Input ref={passwordRef} id="password" type="password" required />
             </div>
             <Button
+              disabled={mutation.isPending}
               onClick={handelLoginSubmit}
               type="submit"
-              className="w-full"
+              className="w-full flex gap-2"
             >
-              Login
+              <span>Login</span>
+              {mutation.isPending && <LoaderCircle className="animate-spin" />}
             </Button>
             <Button variant="outline" className="w-full">
               Login with Google
