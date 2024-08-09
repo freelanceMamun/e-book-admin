@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { Button } from '../components/ui/button';
 import {
   Card,
@@ -6,13 +7,43 @@ import {
   CardHeader,
   CardTitle,
 } from '../components/ui/card';
+
+import { useMutation } from '@tanstack/react-query';
+
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { login } from '../http/api';
 export function LoginPage() {
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+
+  const navigate = useNavigate();
+  // Mutations
+  const mutation = useMutation({
+    mutationFn: login,
+    onSuccess: () => {
+      // Invalidate and refetch
+
+      navigate('/dashboard/home');
+      console.log('Login ');
+    },
+  });
+
+  const handelLoginSubmit = () => {
+    const email = emailRef.current?.value as string;
+    const password = passwordRef.current?.value as string;
+
+    if (!email || !password) {
+      return alert('Please required the fild!');
+    }
+
+    mutation.mutate({ email, password });
+  };
+
   return (
-    <div className="flex items-center justify-center h-screen">
-      <Card className="mx-auto w-[20%]">
+    <div className="flex items-center justify-center h-screen px-11">
+      <Card className="mx-auto ">
         <CardHeader>
           <CardTitle className="text-2xl">Login</CardTitle>
           <CardDescription>
@@ -24,6 +55,7 @@ export function LoginPage() {
             <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
               <Input
+                ref={emailRef}
                 id="email"
                 type="email"
                 placeholder="m@example.com"
@@ -40,9 +72,13 @@ export function LoginPage() {
                   Forgot your password?
                 </Link>
               </div>
-              <Input id="password" type="password" required />
+              <Input ref={passwordRef} id="password" type="password" required />
             </div>
-            <Button type="submit" className="w-full">
+            <Button
+              onClick={handelLoginSubmit}
+              type="submit"
+              className="w-full"
+            >
               Login
             </Button>
             <Button variant="outline" className="w-full">
