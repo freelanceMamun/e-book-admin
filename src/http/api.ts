@@ -18,3 +18,7 @@ export const register = async (data: {
 }) => {
   return api.post('/api/user/register', data);
 };
+
+export const getBooksall = async (data: any) => {
+  return api.get('/api/books', data);
+};

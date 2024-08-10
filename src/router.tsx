@@ -5,6 +5,7 @@ import Register from './pages/register';
 import { DashboardLayout } from './layout/DashboardLayout';
 import Books from './pages/books';
 import AuthLayout from './layout/AuthLayout';
+
 export const router = createBrowserRouter([
   {
     path: '/auth',
