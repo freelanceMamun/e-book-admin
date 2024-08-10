@@ -8,26 +8,28 @@ import {
   CardTitle,
 } from '../components/ui/card';
 import { LoaderCircle } from 'lucide-react';
-
 import { useMutation } from '@tanstack/react-query';
-
 import { Input } from '../components/ui/input';
 import { Label } from '../components/ui/label';
 import { Link, useNavigate } from 'react-router-dom';
 import { login } from '../http/api';
+
+import { useTokenStore } from '../store';
+
 export function LoginPage() {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+
+  const setToken = useTokenStore((state) => state.setToken);
 
   const navigate = useNavigate();
   // Mutations
   const mutation = useMutation({
     mutationFn: login,
-    onSuccess: () => {
+    onSuccess: (response) => {
       // Invalidate and refetch
-
+      setToken(response.data.token);
       navigate('/dashboard/home');
-      console.log('Login ');
     },
   });
 
