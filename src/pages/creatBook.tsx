@@ -1,3 +1,6 @@
+import { z } from 'zod';
+
+import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -18,7 +21,7 @@ import {
   CardDescription,
   CardContent,
 } from '../components/ui/card';
-import { Label } from '../components/ui/label';
+
 import { Input } from '../components/ui/input';
 import { Textarea } from '../components/ui/textarea';
 import { useForm } from 'react-hook-form';
@@ -34,13 +37,49 @@ import {
   FormMessage,
 } from '../components/ui/form';
 
+const formSchema = z.object({
+  title: z.string().min(2, {
+    message: 'Title must be at least 2 characters.',
+  }),
+  genre: z.string().min(2, {
+    message: 'Genre must be at least 2 characters.',
+  }),
+  description: z.string().min(2, {
+    message: 'Description must be at least 2 characters.',
+  }),
+  coverImage: z.instanceof(FileList).refine((file) => {
+    return file.length == 1;
+  }, 'Cover Image is required'),
+  file: z.instanceof(FileList).refine((file) => {
+    return file.length == 1;
+  }, 'Book PDF is required'),
+});
+
+
+const coverImageRef = form.register('coverImage');
+const fileRef = form.register('file');
+
+
 const CreatBook = () => {
-  const form = useForm();
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      title: '',
+      genre: '',
+      description: '',
+      file: '',
+      coverImage: '',
+    },
+  });
+
+  const submit = (values: z.infer<typeof formSchema>) => {
+    console.log(values);
+  };
 
   return (
     <section>
       <Form {...form}>
-        <form>
+        <form onSubmit={form.handleSubmit(submit)}>
           <div className="flex items-center justify-between">
             <Breadcrumb>
               <BreadcrumbList>
