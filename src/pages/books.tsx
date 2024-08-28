@@ -8,7 +8,7 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb';
+} from '../components/ui/breadcrumb';
 
 import { MoreHorizontal } from 'lucide-react';
 
@@ -19,9 +19,9 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from '../components/ui/dropdown-menu';
 
-import { Badge } from '@/components/ui/badge';
+import { Badge } from '../components/ui/badge';
 
 import {
   Table,
@@ -30,7 +30,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
+} from '../components/ui/table';
 import {
   Card,
   CardContent,
@@ -38,33 +38,45 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+} from '../components/ui/card';
+
+import { CirclePlus } from 'lucide-react';
 
 import { Book } from '../type';
+import { Link } from 'react-router-dom';
 
 const Bookspage = () => {
-  const { data, isLoading, isError } = useQuery({
+  const { data } = useQuery({
     queryKey: ['books'],
     queryFn: getBooksall,
+    staleTime: 20000,
   });
-
-  console.log(data);
 
   return (
     <div>
-      <Breadcrumb>
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbLink href="/">Home</BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbPage>
-              <span className="font-medium">Books</span>
-            </BreadcrumbPage>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
+      <div className="flex items-center justify-between">
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href="/">Home</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>
+                <span className="font-medium">Books</span>
+              </BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+        <Link to={'/dashboard/books/create'}>
+          <Button className="flex gap-2 text-[17px]">
+            <span>
+              <CirclePlus />
+            </span>
+            Add Book
+          </Button>
+        </Link>
+      </div>
 
       <Card className="mt-7" x-chunk="dashboard-06-chunk-0">
         <CardHeader>

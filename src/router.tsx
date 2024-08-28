@@ -5,6 +5,7 @@ import Register from './pages/register';
 import { DashboardLayout } from './layout/DashboardLayout';
 import Books from './pages/books';
 import AuthLayout from './layout/AuthLayout';
+import CreatBook from './pages/creatBook';
 
 export const router = createBrowserRouter([
   {
@@ -34,6 +35,10 @@ export const router = createBrowserRouter([
       {
         path: 'books',
         element: <Books></Books>,
+      },
+      {
+        path: 'books/create',
+        element: <CreatBook></CreatBook>,
       },
     ],
     element: <DashboardLayout />,
